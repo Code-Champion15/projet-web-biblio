@@ -1,14 +1,17 @@
-var createError = require('http-errors');
+var createError = require('http-errors');//importation des variables a partir du node modules
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const http = require('http');
+const { connectToMongoDB } = require('./db/BD');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/users');//si je supp cette ligne il ne reconnait plus users
 
-var app = express();
+var app = express();//hatina mo5 fi variable 
+require("dotenv").config();//blasa nhotou fiha les mots de passes
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -16,8 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', indexRouter);//acceder a indexroute par /
+app.use('/users', usersRouter);//acceder a usersRouter par /users
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -35,7 +38,7 @@ app.use(function(err, req, res, next) {
   res.json('error');
 });
 
-const server = http.createServer(app);
-server.listen(5000, () =>{console.log("app is running on port 5000")})
+const server = http.createServer(app);//affecter le cervea app au serveur http
+server.listen(5000, () => {connectToMongoDB(),console.log("app is running on port 5000")})
 
 module.exports = app;
