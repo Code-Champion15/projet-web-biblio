@@ -8,7 +8,7 @@ const upload = require("../middlewares/uploadFile")
  // res.json('respond with a resource');
 //});
 router.get('/',userController.getUsers );
-router.get('/getUserById/:id', userController.getUserById );
+router.get('/getUserById/:id', userController.getUserByID );
 router.post('/',userController.addUserC );
 router.post('/addwithImg',upload.single("image_user"),userController.addUser);
 router.delete('/deleteUser/:id',userController.deleteUser );
