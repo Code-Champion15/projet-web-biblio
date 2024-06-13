@@ -8,9 +8,9 @@ module.exports.addUserC = async (req,res) => {
         const user = new userModel({
             name, age, email, password, role,
         });
-        const addedUser = await user.save();
+        const AddedUser = await user.save();
 
-        res.status(201).json({AddedUser })
+        res.status(201).json({AddedUser})
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -36,7 +36,7 @@ module.exports.deleteUser = async (req, res) => {
             {
                 throw new Error ("User not found !")
             }
-        await userModel.findByIdAndDeleted(id);
+        await userModel.findByIdAndDelete(id);
         res.status(200).json("deleted");
     }catch (err) {
         res.status(500).json({message: err.message});
@@ -45,7 +45,7 @@ module.exports.deleteUser = async (req, res) => {
 
 module.exports.updateUserC = async(req,res) =>{
     try{
-        const {id} =res.params;
+        const {id} =req.params;
         const {name, age, email, password } = req.body;
         const role = "client";
         const checkIfUserExists = await userModel.findById(id);
@@ -53,7 +53,7 @@ module.exports.updateUserC = async(req,res) =>{
             {
                 throw new Error ("User not found !")
             }
-        updated = await userModel.findByIdAndUpdated(
+        updated = await userModel.findByIdAndUpdate(
             id, {
                 $set:{ name , email, age, password}
             },
@@ -90,7 +90,7 @@ module.exports.getUserByID = async(req,res) =>{
     try{
         const {id}=req.params;
         const users = await userModel.findById(id);
-        if (user.length===0 && !users){
+        if (users.length===0 && !users){
             throw new Error ("no users found");
         }
         res.status(200).json({users});

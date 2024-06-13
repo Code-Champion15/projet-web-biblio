@@ -4,7 +4,7 @@ var storage = multer.diskStorage({
         cb(null, 'public')
     },
     filename: function(req,file,cb) {
-        const uniqueSuffix = Date.new() + '-' + Math.round(Math.random() * 1E9);//ligne qui change
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);//ligne qui change
         const fileExtension = file.originalname.split('.').pop();//ligne qui change
         cb(null, `${uniqueSuffix}.${fileExtension}`);
     }
