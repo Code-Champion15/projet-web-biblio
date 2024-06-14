@@ -9,6 +9,7 @@ const { connectToMongoDB } = require('./db/BD');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');//si je supp cette ligne il ne reconnait plus users
 var livreRouter = require('./routes/livres');
+var venteRouter = require('./routes/ventes');
 
 var app = express();
 require("dotenv").config();//blasa nhotou fiha les mots de passes
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);//acceder a indexroute par /
 app.use('/users', usersRouter);//acceder a usersRouter par /users
 app.use('/livres', livreRouter);
+app.use('/ventes',venteRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
