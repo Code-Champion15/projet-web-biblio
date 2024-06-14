@@ -8,7 +8,7 @@ const livreSchema = new mongoose.Schema(
         prix : Number,
         etat : [String],
         description : String,
-        vendeurId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
+        vendeurId: { type: mongoose.Schema.Types.ObjectId, ref: "User"},
         image_livre: { type: String, required: false, default: "livre.png"}
     },
     {timestamps: true}
