@@ -2,7 +2,7 @@ const livreModel = require("../Models/livreModel");
 
 module.exports.addLivre = async (req,res) => {
     try{
-        const livre = new livreModel(req.body);
+        const livre = new livreModel({...req.body, vendeur:req.User._id });
         console.log(livre);
         const AddedLivre = await livre.save();
         res.status(201).json({AddedLivre})
@@ -13,7 +13,7 @@ module.exports.addLivre = async (req,res) => {
 
 module.exports.getLivres = async (req,res) => {
     try{
-        const livres = await livreModel.find();
+        const livres = await livreModel.find({ vendu: false}).populate('vendeur');//recupere seulement les livres non vendus
         if(livres.length === 0 && !livres) {
             throw new Error ("no books found");
         }
@@ -24,15 +24,26 @@ module.exports.getLivres = async (req,res) => {
     
 };
 
-module.exports.updateLivre = async(req,res) =>{
+module.exports.getLivreById = async (req,res) => {
     try{
         const {id} =req.params;
-        const {titre, auteur, prix, etat, description} = req.body;
+        const livre = await Livre.findById(id).populate('vendeur');
         const checkIfLivreExists = await livreModel.findById(id);
         if (!checkIfLivreExists)
             {
                 throw new Error ("book not found !")
             }
+        res.status(200).json({livre});
+    }catch(err){
+        res.status(500).json({message: err.message})
+    }
+}
+
+module.exports.updateLivre = async(req,res) =>{
+    try{
+        const {id} =req.params;
+        const {titre, auteur, prix, etat, description} = req.body;
+        
         update = await livreModel.findByIdAndUpdate(
             id, {
                 $set:{ titre, auteur, prix, etat, description}

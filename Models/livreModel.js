@@ -8,11 +8,12 @@ const livreSchema = new mongoose.Schema(
         prix : Number,
         etat : [String],
         description : String,
-        vendeurId: { type: mongoose.Schema.Types.ObjectId, ref: "User"},
-        image_livre: { type: String, required: false, default: "livre.png"}
+        vendeur: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
+        image_livre: { type: String, required: false, default: "livre.png"},
+        vendu: {type: Boolean, default: false}
     },
     {timestamps: true}
 );
 
-const Livre = mongoose.model("livre", livreSchema);
+const Livre = mongoose.model("Livre", livreSchema);
 module.exports = Livre;

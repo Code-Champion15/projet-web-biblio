@@ -4,6 +4,7 @@ const livreController = require("../Controllers/livreController");
 //const upload = require("../middlewares/uploadFile");
 
 router.get('/',livreController.getLivres);
+router.get('/getLivreById/:id',livreController.getLivreById);
 router.post('/',livreController.addLivre);
 router.put('/update/:id',livreController.updateLivre);
 router.delete('/delete/:id',livreController.deleteLivre);
