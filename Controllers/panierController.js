@@ -1,8 +1,18 @@
 const panierModel = require("../Models/panierModel");
+const userModel = require("../Models/userModel");
+
 
 module.exports.addPanier = async (req,res) => {
     try {
-        const panier = new panierModel ({user: req.user._id});
+        const {UserId} = req.body;
+        const user = await userModel.findById(UserId);
+        if(!user) {
+            throw new Error("User not found");
+        }
+        const panier = new panierModel ({
+            user: UserId,
+        });
+
         const addedPanier = await panier.save();
         res.status(201).json({addedPanier});
 
@@ -13,7 +23,7 @@ module.exports.addPanier = async (req,res) => {
 
 module.exports.getPanierByUserId = async (req,res) =>{
     try{
-        const panier = await panierModel.findOne({user:req.user._id}).populate('livres');
+        const panier = await panierModel.findOne({user:req.userModel._id}).populate('livres');
         const checkIfPanierExists = await panierModel.findById(id);
         if (!checkIfPanierExists)
             {
@@ -27,7 +37,7 @@ module.exports.getPanierByUserId = async (req,res) =>{
 
 module.exports.addLivreToPanier = async(req, res) =>{
     try{
-        const panier = await panierModel.findOne({user: req.user._id});
+        const panier = await panierModel.findOne({user: req.userModel._id});
         if (!checkIfPanierExists)
             {
                 throw new Error ("panier not found !")
@@ -43,7 +53,7 @@ module.exports.addLivreToPanier = async(req, res) =>{
 
 module.exports.removeLivreFromPanier = async (req,res) =>{
     try{
-        const panier = await panierModel.findOne({user: req.user._id});
+        const panier = await panierModel.findOne({user: req.userModel._id});
         if (!checkIfPanierExists)
             {
                 throw new Error ("panier not found !")

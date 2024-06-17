@@ -10,7 +10,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');//si je supp cette ligne il ne reconnait plus users
 var livreRouter = require('./routes/livres');
 var commandeRouter = require('./routes/commandes');
-
+var panierRouter = require('./routes/panier');
+var paiementRouter = require('./routes/paiement');
 
 var app = express();
 require("dotenv").config();//blasa nhotou fiha les mots de passes
@@ -25,8 +26,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);//acceder a indexroute par /
 app.use('/users', usersRouter);//acceder a usersRouter par /users
 app.use('/livres', livreRouter);
-//app.use('/paniers', panierRouter);
 app.use('/commandes',commandeRouter);
+app.use('/panier',panierRouter);
+app.use('/paiement', paiementRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -13,6 +13,8 @@ const userSchema = new mongoose.Schema(
       default:'client'
     },
     image_user: { type: String, required: false, default: "client.png" },
+
+    livres : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Livre'}],
   },
   { timestamps: true }
 );
