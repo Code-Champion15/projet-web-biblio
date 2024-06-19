@@ -23,9 +23,14 @@ module.exports.addPanier = async (req,res) => {
 
 module.exports.getPanierByUserId = async (req,res) =>{
     try{
-        const panier = await panierModel.findOne({user:req.userModel._id}).populate('livres');
-        const checkIfPanierExists = await panierModel.findById(id);
-        if (!checkIfPanierExists)
+        const userId = req.body.userId;
+        console.log('userId:',userId);
+        if(!userId) {
+            throw new Error("userId is required");
+        }
+        const panier = await panierModel.findOne({user: userId}).populate('livres');
+        console.log('panier:',panier);
+        if (!panier)
             {
                 throw new Error ("panier not found !")
             }
@@ -37,12 +42,22 @@ module.exports.getPanierByUserId = async (req,res) =>{
 
 module.exports.addLivreToPanier = async(req, res) =>{
     try{
-        const panier = await panierModel.findOne({user: req.userModel._id});
-        if (!checkIfPanierExists)
+        const userId = req.body.userId;
+        console.log('userId:', userId);
+        if(!userId) {
+            throw new Error("userId is required");
+        }
+
+        const panier = await panierModel.findOne({user: userId});
+        console.log('panier:', panier);
+        if (!panier)
             {
                 throw new Error ("panier not found !")
             }
-        panier.livres.push(req.body.livreId);
+        const livreId = req.body.livreId
+        console.log('livreId:', livreId);
+        panier.livres.push(livreId);
+        
         const updatedPanier = await panier.save();
         res.status(200).json({updatedPanier})
 
