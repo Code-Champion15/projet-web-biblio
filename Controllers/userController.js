@@ -16,6 +16,22 @@ module.exports.addUserC = async (req,res) => {
     }
 };
 
+module.exports.addUserA = async (req,res) => {
+    const { name, email, password } =req.body;
+    const role = "admin";
+    console.log(req.body);
+    try{
+        const user = new userModel({
+            name, email, password, role,
+        });
+        const AddedUser = await user.save();
+
+        res.status(201).json({AddedUser})
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports.getUsers = async (req, res)=> {
     try{
         const users = await userModel.find();

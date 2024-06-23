@@ -68,12 +68,18 @@ module.exports.addLivreToPanier = async(req, res) =>{
 
 module.exports.removeLivreFromPanier = async (req,res) =>{
     try{
-        const panier = await panierModel.findOne({user: req.userModel._id});
-        if (!checkIfPanierExists)
+        const userId = req.body.userId;
+        console.log('userId:', userId);
+
+        const panier = await panierModel.findOne({user: userId});
+        if (!panier)
             {
                 throw new Error ("panier not found !")
             }
-        panier.livres.pull(req.body.livreId);
+        const livreId = req.body.livreId;
+        console.log('livreId:', livreId);
+
+        panier.livres.pull(livreId);
         await panier.save();
         res.status(200).json("livre supprimé");
     }catch(err){

@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["admin", "client"],
-      default:'client'
+      //default:'client'
     },
     image_user: { type: String, required: false, default: "client.png" },
 

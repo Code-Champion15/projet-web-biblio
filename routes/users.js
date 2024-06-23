@@ -9,7 +9,8 @@ const upload = require("../middlewares/uploadFile")
 //});
 router.get('/getUsers',userController.getUsers );
 router.get('/getUserById/:id', userController.getUserByID );
-router.post('/',userController.addUserC );
+router.post('/addUserC',userController.addUserC );
+router.post('/addUserA',userController.addUserA);
 //router.post('/addUserA',userController.addUserA );
 
 router.post('/addwithImg',upload.single("image_user"),userController.addUser);
